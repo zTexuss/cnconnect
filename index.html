@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cidade Noturna Connect</title>
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="moon"></div>
+    <div id="bubblesContainer" class="bubbles-container"></div>
+
+    <svg class="skyline skyline-back" viewBox="0 0 1200 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <g class="buildings">
+            <rect x="20"   y="170" width="60"  height="90" />
+            <rect x="90"   y="130" width="50"  height="130" />
+            <rect x="150"  y="190" width="55"  height="70" />
+            <rect x="215"  y="100" width="40"  height="160" />
+            <rect x="265"  y="160" width="70"  height="100" />
+            <rect x="345"  y="80"  width="45"  height="180" />
+            <rect x="400"  y="185" width="60"  height="75" />
+            <rect x="470"  y="140" width="50"  height="120" />
+            <rect x="530"  y="60"  width="55"  height="200" />
+            <rect x="595"  y="175" width="65"  height="85" />
+            <rect x="670"  y="115" width="45"  height="145" />
+            <rect x="725"  y="195" width="55"  height="65" />
+            <rect x="790"  y="95"  width="50"  height="165" />
+            <rect x="850"  y="155" width="70"  height="105" />
+            <rect x="930"  y="70"  width="45"  height="190" />
+            <rect x="985"  y="180" width="60"  height="80" />
+            <rect x="1055" y="125" width="50"  height="135" />
+            <rect x="1115" y="200" width="55"  height="60" />
+        </g>
+    </svg>
+
+    <svg class="skyline skyline-front" viewBox="0 0 1200 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="skylineFade" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#0e0821" stop-opacity="0"/>
+                <stop offset="100%" stop-color="#0e0821" stop-opacity="1"/>
+            </linearGradient>
+        </defs>
+        <g class="buildings">
+            <rect x="0"    y="140" width="70"  height="120" />
+            <rect x="75"   y="90"  width="55"  height="170" />
+            <rect x="135"  y="160" width="60"  height="100" />
+            <rect x="200"  y="60"  width="45"  height="200" />
+            <rect x="250"  y="120" width="80"  height="140" />
+            <rect x="335"  y="40"  width="50"  height="220" />
+            <rect x="390"  y="150" width="65"  height="110" />
+            <rect x="460"  y="95"  width="55"  height="165" />
+            <rect x="520"  y="20"  width="60"  height="240" />
+            <rect x="585"  y="130" width="70"  height="130" />
+            <rect x="660"  y="70"  width="50"  height="190" />
+            <rect x="715"  y="155" width="60"  height="105" />
+            <rect x="780"  y="50"  width="55"  height="210" />
+            <rect x="840"  y="115" width="75"  height="145" />
+            <rect x="920"  y="30"  width="50"  height="230" />
+            <rect x="975"  y="145" width="65"  height="115" />
+            <rect x="1045" y="85"  width="55"  height="175" />
+            <rect x="1105" y="160" width="60"  height="100" />
+            <rect x="1170" y="100" width="30"  height="160" />
+        </g>
+        <g class="windows"></g>
+        <rect x="0" y="0" width="1200" height="260" fill="url(#skylineFade)" />
+    </svg>
+
+    <main class="container">
+        <div class="logo-container">
+            <img src="assets/logo.png" alt="Cidade Noturna Roleplay">
+        </div>
+        <h1>Entrando no servidor<span class="dots"></span></h1>
+        <p class="server-info" id="serverName">Cidade Noturna</p>
+
+        <div class="progress-wrapper" aria-label="Progresso de conexão">
+            <div id="progressBar" class="progress-bar"></div>
+        </div>
+        <p class="progress-label" id="progressLabel">Preparando ambiente... 0%</p>
+
+        <div class="actions">
+            <button id="connectNowBtn" class="btn primary">Conectar agora</button>
+            <button id="copyAddressBtn" class="btn ghost">Copiar endereço</button>
+            <button id="toggleMusicBtn" class="btn ghost">🔊 Música: ligada</button>
+        </div>
+
+        <div class="server-info small" id="countdownLabel">
+            Conexão automática em 8s
+        </div>
+
+        <section id="mtaWarning" class="mta-warning" aria-live="polite">
+            <p><strong>MTA não abriu automaticamente.</strong></p>
+            <p>Verifique se o MTA está instalado e tente novamente:</p>
+            <ol>
+                <li>Abra o Multi Theft Auto uma vez como administrador.</li>
+                <li>Volte para esta tela e clique em <em>Conectar agora</em>.</li>
+                <li>Se precisar, instale/atualize o MTA pelo site oficial.</li>
+            </ol>
+            <a href="https://multitheftauto.com/" target="_blank" rel="noopener noreferrer">Baixar MTA</a>
+        </section>
+    </main>
+
+    <audio id="bgMusic" src="assets/fundoa.mp3" loop preload="auto"></audio>
+    <script src="script.js"></script>
+</body>
+</html>

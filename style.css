@@ -1,0 +1,377 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #c86bff;
+    --primary-strong: #e29bff;
+    --accent-lilac: #c9a3ff;
+    --bg-1: #0e0821;
+    --bg-2: #2a1150;
+    --bg-3: #4b1275;
+    --surface: rgba(35, 18, 63, 0.55);
+    --surface-border: rgba(200, 107, 255, 0.22);
+    --text: #f4eeff;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(160deg, var(--bg-1) 0%, var(--bg-2) 45%, var(--bg-3) 75%, var(--bg-1) 100%);
+    background-size: 300% 300%;
+    animation: gradientShift 22s ease-in-out infinite;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    color: var(--text);
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 30%; }
+    50% { background-position: 100% 70%; }
+    100% { background-position: 0% 30%; }
+}
+
+/* Starfield (populado dinamicamente pelo script.js) */
+.stars {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.star {
+    position: absolute;
+    border-radius: 50%;
+    background: #ffffff;
+    animation: twinkle ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+    0% { opacity: var(--min-opacity, 0.2); transform: scale(0.85); }
+    100% { opacity: var(--max-opacity, 1); transform: scale(1.15); }
+}
+
+.star.shooting {
+    width: 2px;
+    height: 2px;
+    background: linear-gradient(90deg, #fff, transparent);
+    border-radius: 999px;
+    animation: shoot 5s linear infinite;
+    opacity: 0;
+}
+
+@keyframes shoot {
+    0% { transform: translate(0, 0) rotate(-35deg); opacity: 0; width: 2px; }
+    2% { opacity: 1; }
+    8% { transform: translate(-220px, 160px) rotate(-35deg); opacity: 0; width: 90px; }
+    100% { opacity: 0; }
+}
+
+/* Moon */
+.moon {
+    position: fixed;
+    top: 8%;
+    right: 12%;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    z-index: 1;
+    pointer-events: none;
+    background: radial-gradient(circle at 35% 35%, #fdf6ff, #e2c6ff 55%, #b98bff 100%);
+    box-shadow:
+        0 0 40px 10px rgba(200, 107, 255, 0.45),
+        0 0 90px 30px rgba(201, 163, 255, 0.15);
+    animation: moonGlow 6s ease-in-out infinite;
+}
+
+@keyframes moonGlow {
+    0%, 100% {
+        box-shadow: 0 0 40px 10px rgba(200, 107, 255, 0.45), 0 0 90px 30px rgba(201, 163, 255, 0.15);
+    }
+    50% {
+        box-shadow: 0 0 55px 16px rgba(200, 107, 255, 0.6), 0 0 110px 40px rgba(201, 163, 255, 0.22);
+    }
+}
+
+/* Skyline SVG layers — parallax depth */
+.skyline {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    pointer-events: none;
+}
+
+.skyline-back {
+    height: 26vh;
+    z-index: 1;
+    opacity: 0.55;
+    filter: blur(1.5px) brightness(0.7);
+}
+
+.skyline-back .buildings rect {
+    fill: #180d38;
+}
+
+.skyline-front {
+    height: 30vh;
+    z-index: 2;
+}
+
+.skyline-front .buildings rect {
+    fill: #120a2b;
+    stroke: rgba(200, 107, 255, 0.08);
+}
+
+.skyline-front .windows rect {
+    fill: var(--primary);
+}
+
+@keyframes windowPulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.9; }
+}
+
+.bubbles-container {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Bubbles reimagined as rising city lights / drifting stars */
+.bubble {
+    position: absolute;
+    bottom: -50px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200, 107, 255, 0.85), rgba(201, 163, 255, 0.15));
+    animation: rise linear infinite;
+    box-shadow: 0 0 10px rgba(200, 107, 255, 0.5);
+}
+
+@keyframes rise {
+    from {
+        transform: translateY(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.9;
+    }
+    to {
+        transform: translateY(-120vh);
+        opacity: 0;
+    }
+}
+
+.container {
+    width: min(460px, 92vw);
+    background: var(--surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--surface-border);
+    border-radius: 24px;
+    padding: 44px 30px;
+    text-align: center;
+    box-shadow:
+        0 12px 50px rgba(0, 0, 0, 0.55),
+        0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+        0 0 70px rgba(200, 107, 255, 0.12);
+    z-index: 10;
+    position: relative;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 24px;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(200, 107, 255, 0.5), rgba(201, 163, 255, 0.15), rgba(200, 107, 255, 0.5));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.logo-container {
+    margin-bottom: 18px;
+    animation: float 3s ease-in-out infinite;
+}
+
+.logo-container img {
+    max-width: 220px;
+    height: auto;
+    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.5));
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+h1 {
+    font-size: 1.95rem;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+    font-weight: 800;
+    background: linear-gradient(90deg, #ffffff, var(--primary-strong));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 14px rgba(200, 107, 255, 0.35));
+}
+
+.dots::after {
+    content: '...';
+    animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+    0%, 20% { content: '.'; }
+    40% { content: '..'; }
+    60%, 100% { content: '...'; }
+}
+
+.server-info {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--accent-lilac);
+    text-shadow: 0 0 10px rgba(201, 163, 255, 0.4);
+}
+
+.progress-wrapper {
+    width: 100%;
+    height: 14px;
+    border-radius: 999px;
+    margin: 22px 0 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(200, 107, 255, 0.15);
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, var(--accent-lilac), var(--primary));
+    box-shadow: 0 0 12px rgba(200, 107, 255, 0.6);
+    transition: width 0.25s ease;
+}
+
+.progress-label {
+    font-size: 0.95rem;
+    opacity: 0.85;
+}
+
+.actions {
+    margin-top: 18px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    border: 0;
+    border-radius: 11px;
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn.primary {
+    background: linear-gradient(90deg, var(--primary), var(--primary-strong));
+    color: #17102b;
+    box-shadow: 0 0 16px rgba(200, 107, 255, 0.4);
+}
+
+.btn.primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 22px rgba(200, 107, 255, 0.6);
+}
+
+.btn.ghost {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text);
+    border: 1px solid rgba(201, 163, 255, 0.35);
+}
+
+.btn.ghost:hover {
+    border-color: rgba(201, 163, 255, 0.7);
+    box-shadow: 0 0 14px rgba(201, 163, 255, 0.25);
+}
+
+.server-info.small {
+    font-size: 0.95rem;
+    opacity: 0.75;
+    font-weight: 400;
+    margin-top: 14px;
+    color: var(--text);
+}
+
+.mta-warning {
+    display: none;
+    margin-top: 22px;
+    background: rgba(6, 8, 24, 0.55);
+    border: 1px solid rgba(200, 107, 255, 0.2);
+    padding: 15px;
+    border-radius: 15px;
+    color: #fff;
+    font-size: 0.92rem;
+    text-align: left;
+}
+
+.mta-warning ol {
+    padding-left: 20px;
+    line-height: 1.4;
+}
+
+.mta-warning a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 18px;
+    background: linear-gradient(90deg, var(--primary), var(--primary-strong));
+    color: #17102b;
+    font-weight: 600;
+    border-radius: 10px;
+    text-decoration: none;
+}
+
+@media (max-width: 520px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .container {
+        padding: 38px 22px;
+    }
+
+    .logo-container img {
+        max-width: 150px;
+    }
+
+    .moon {
+        width: 56px;
+        height: 56px;
+        top: 5%;
+        right: 8%;
+    }
+
+    .skyline-back {
+        height: 18vh;
+    }
+
+    .skyline-front {
+        height: 22vh;
+    }
+}
